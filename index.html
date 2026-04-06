@@ -1,160 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Website List</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>오인오인 게임즈</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f4f6fb;--card:#ffffff;
+  --accent:#4f6ef7;
+  --text:#1e2333;--text-dim:#8b90a8;
+  --border:#e8eaf2;
+}
+body{
+  font-family:'Noto Sans KR',sans-serif;background:var(--bg);
+  color:var(--text);min-height:100vh;
+}
+.container{max-width:680px;margin:0 auto;padding:64px 20px 80px}
 
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Oxygen, Ubuntu, Cantarell, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        padding: 40px 20px;
-      }
+header{text-align:center;margin-bottom:52px}
+.logo{
+  font-family:'Black Han Sans',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);
+  color:var(--text);letter-spacing:-.02em;
+}
+.logo span{color:var(--accent)}
+.subtitle{
+  margin-top:8px;font-size:.8rem;color:var(--text-dim);
+  letter-spacing:.15em;text-transform:uppercase;font-weight:600;
+}
 
-      .container {
-        max-width: 800px;
-        margin: 0 auto;
-      }
+.grid{display:grid;gap:10px}
 
-      h1 {
-        color: white;
-        text-align: center;
-        margin-bottom: 40px;
-        font-size: 2.5em;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-      }
+.card{
+  display:flex;align-items:center;gap:16px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:18px 20px;
+  text-decoration:none;color:var(--text);
+  transition:all .2s ease;
+}
+.card:hover{
+  box-shadow:0 4px 20px rgba(79,110,247,.1);
+  transform:translateY(-2px);
+}
 
-      .website-list {
-        display: grid;
-        gap: 20px;
-      }
+.icon{
+  flex-shrink:0;width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+}
+.icon svg{width:22px;height:22px;stroke-width:1.8;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
 
-      .website-card {
-        background: white;
-        border-radius: 12px;
-        padding: 24px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-      }
+.card-body{flex:1;min-width:0}
+.card-name{font-weight:700;font-size:1rem;margin-bottom:2px}
+.card-url{
+  font-size:.75rem;color:var(--text-dim);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.arrow{
+  flex-shrink:0;color:var(--text-dim);font-size:.95rem;
+  transition:all .2s;opacity:0;transform:translateX(-6px);
+}
+.card:hover .arrow{opacity:1;transform:translateX(0)}
 
-      .website-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-      }
+/* Color themes */
+.t-blue .icon{background:#eef1fe;color:#4f6ef7}
+.t-red .icon{background:#fef0ef;color:#f97066}
+.t-green .icon{background:#ecfbf5;color:#22c993}
+.t-amber .icon{background:#fef8ec;color:#e5a220}
+.t-purple .icon{background:#f3effe;color:#8b6cf7}
+.t-cyan .icon{background:#ecf8fb;color:#20b2c9}
 
-      .website-name {
-        font-size: 1.5em;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 8px;
-      }
+.card.t-blue:hover{border-color:#4f6ef7}
+.card.t-red:hover{border-color:#f97066}
+.card.t-green:hover{border-color:#22c993}
+.card.t-amber:hover{border-color:#e5a220}
+.card.t-purple:hover{border-color:#8b6cf7}
+.card.t-cyan:hover{border-color:#20b2c9}
 
-      .website-url {
-        color: #667eea;
-        text-decoration: none;
-        font-size: 1em;
-        word-break: break-all;
-      }
+.foot{
+  text-align:center;margin-top:36px;font-size:.78rem;color:var(--text-dim);
+  letter-spacing:.04em;
+}
 
-      .website-url:hover {
-        text-decoration: underline;
-      }
-
-      .count {
-        text-align: center;
-        color: white;
-        margin-top: 30px;
-        font-size: 1.1em;
-        opacity: 0.9;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>📚 Website Collection</h1>
-      <div class="website-list" id="websiteList"></div>
-      <div class="count" id="count"></div>
+.card{opacity:0;animation:up .4s ease forwards}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">오인오인 <span>게임즈</span></div>
+    <div class="subtitle">Play Collection</div>
+  </header>
+  <div class="grid" id="grid"></div>
+  <div class="foot" id="foot"></div>
+</div>
+<script>
+const icons={
+  book:`<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z"/></svg>`,
+  bamboo:`<svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="M8 6h8"/><path d="M7 10h10"/><path d="M8 14h8"/><path d="M6 18h12"/></svg>`,
+  dragon:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-5"/></svg>`,
+  angle:`<svg viewBox="0 0 24 24"><path d="M5 19h14"/><path d="M5 19V5"/><path d="M5 19l12-14"/></svg>`,
+  tree:`<svg viewBox="0 0 24 24"><path d="M12 22V8"/><path d="M5 12l7-8 7 8"/><path d="M3 17l9-7 9 7"/></svg>`,
+  cart:`<svg viewBox="0 0 24 24"><path d="M5 17h14l1-9H4"/><circle cx="8" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M2 3h3"/></svg>`,
+  run:`<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><path d="m7 21 3-7"/><path d="m10 14 2-2 4 1"/><path d="m17 10-4-1-2 3"/><path d="m7 10 3 4"/></svg>`,
+  stack:`<svg viewBox="0 0 24 24"><rect x="4" y="14" width="16" height="6" rx="1"/><rect x="6" y="8" width="12" height="6" rx="1"/><rect x="8" y="2" width="8" height="6" rx="1"/></svg>`,
+  keyboard:`<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M8 16h8"/></svg>`,
+  trophy:`<svg viewBox="0 0 24 24"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v6a5 5 0 0 1-10 0V4z"/><path d="M7 7H4a1 1 0 0 0-1 1v1a3 3 0 0 0 3 3"/><path d="M17 7h3a1 1 0 0 1 1 1v1a3 3 0 0 1-3 3"/></svg>`,
+};
+const themes=['t-amber','t-green','t-red','t-blue','t-green','t-cyan','t-purple','t-amber','t-blue','t-red'];
+const websites=[
+  {name:"게임 튜토리얼 및 설명",url:"https://l.oein.kr/game",icon:"book"},
+  {name:"죽림ᄌ고수",url:"https://jrzgs.oein.kr/",icon:"bamboo"},
+  {name:"곤뇬게임",url:"http://grg.oein.kr/",icon:"dragon"},
+  {name:"각 맞추기",url:"https://angle.oein.kr/",icon:"angle"},
+  {name:"정글 키우기",url:"https://jungle.oein.kr/",icon:"tree"},
+  {name:"카트폴",url:"https://kartpole.oein.kr/",icon:"cart"},
+  {name:"갱 피하기",url:"https://gang.oein.kr/",icon:"run"},
+  {name:"탑쌓기",url:"https://stacktop.oein.kr/",icon:"stack"},
+  {name:"키보드 오량하기",url:"https://kbt.oein.kr/",icon:"keyboard"},
+  {name:"리더보드 종합",url:"https://ldb.oein.kr/",icon:"trophy"},
+];
+const grid=document.getElementById("grid");
+grid.innerHTML=websites.map((w,i)=>`
+  <a class="card ${themes[i]}" href="${w.url}" target="_blank" style="animation-delay:${i*50}ms">
+    <div class="icon">${icons[w.icon]}</div>
+    <div class="card-body">
+      <div class="card-name">${w.name}</div>
+      <div class="card-url">${w.url}</div>
     </div>
-
-    <script>
-      // Edit this array to add, remove, or modify websites
-      const websites = [
-        {
-          name: "게임 튜토리얼 및 설명",
-          url: "https://l.oein.kr/game"
-        },
-        {
-          name: "죽림ㅈ고수",
-          url: "https://jrzgs.oein.kr/",
-        },
-        {
-          name: "곤뇬게임",
-          url: "http://grg.oein.kr/",
-        },
-        {
-          name: "각 맞추기",
-          url: "https://angle.oein.kr/",
-        },
-        {
-          name: "정글 키우기",
-          url: "https://jungle.oein.kr/",
-        },
-        {
-          name: "카트폴",
-          url: "https://kartpole.oein.kr/",
-        },
-        {
-          name: "갱 피하기",
-          url: "https://gang.oein.kr/",
-        },
-        {
-          name: "탑쌓기",
-          url: "https://stacktop.oein.kr/",
-        },
-        {
-          name: "키보드 오량하기",
-          url: "https://kbt.oein.kr/",
-        },
-        {
-          name: "리더보드 종합",
-          url: "https://ldb.oein.kr/",
-        },
-      ];
-
-      // Render the website list
-      function renderWebsites() {
-        const listContainer = document.getElementById("websiteList");
-        const countContainer = document.getElementById("count");
-
-        listContainer.innerHTML = websites
-          .map(
-            (website) => `
-                <div class="website-card" onclick="window.open('${website.url}', '_blank')">
-                    <div class="website-name">${website.name}</div>
-                    <a href="${website.url}" class="website-url" target="_blank" onclick="event.stopPropagation()">
-                        ${website.url}
-                    </a>
-                </div>
-            `
-          )
-          .join("");
-
-        countContainer.textContent = `Total: ${websites.length} website${
-          websites.length !== 1 ? "s" : ""
-        }`;
-      }
-
-      // Initialize
-      renderWebsites();
-    </script>
-  </body>
+    <span class="arrow">→</span>
+  </a>
+`).join("");
+document.getElementById("foot").textContent=`${websites.length}개 게임`;
+</script>
+</body>
 </html>
